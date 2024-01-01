@@ -1,0 +1,28 @@
+Could not open input file: websocket_server.php
+Could not open input file: websocket_server.php
+Could not open input file: websocket_server.php
+    WebSocket Server running at http://127.0.0.1:8080
+    
+Fatal error: Uncaught RuntimeException: Failed to listen on "tcp://0.0.0.0:3000": Address already in use in /home/hdd9tri3x0kp/public_html/vendor/react/socket/src/TcpServer.php:184
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct()
+#1 /home/hdd9tri3x0kp/public_html/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct()
+#2 /home/hdd9tri3x0kp/public_html/WebSocketServer.php(92): Ratchet\Server\IoServer::factory()
+#3 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/vendor/react/socket/src/TcpServer.php on line 184
+    
+Fatal error: Uncaught RuntimeException: Failed to listen on "tcp://0.0.0.0:3000": Address already in use in /home/hdd9tri3x0kp/public_html/vendor/react/socket/src/TcpServer.php:184
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct()
+#1 /home/hdd9tri3x0kp/public_html/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct()
+#2 /home/hdd9tri3x0kp/public_html/WebSocketServer.php(92): Ratchet\Server\IoServer::factory()
+#3 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/vendor/react/socket/src/TcpServer.php on line 184
+    
+Fatal error: Uncaught RuntimeException: Failed to listen on "tcp://0.0.0.0:3000": Address already in use in /home/hdd9tri3x0kp/public_html/vendor/react/socket/src/TcpServer.php:184
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct()
+#1 /home/hdd9tri3x0kp/public_html/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct()
+#2 /home/hdd9tri3x0kp/public_html/WebSocketServer.php(92): Ratchet\Server\IoServer::factory()
+#3 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/vendor/react/socket/src/TcpServer.php on line 184

@@ -1,0 +1,69 @@
+[29-Dec-2023 00:19:37 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[29-Dec-2023 00:19:46 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[29-Dec-2023 00:21:54 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[29-Dec-2023 00:23:00 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[29-Dec-2023 00:23:08 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[29-Dec-2023 00:23:15 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[29-Dec-2023 00:24:05 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[29-Dec-2023 00:24:17 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[29-Dec-2023 00:24:48 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[29-Dec-2023 00:25:33 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[30-Dec-2023 00:01:23 UTC] PHP Warning:  Undefined array key "sender" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 12
+[30-Dec-2023 00:01:23 UTC] PHP Warning:  Undefined array key "message" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 13
+[30-Dec-2023 00:01:23 UTC] PHP Warning:  Undefined array key "channel_id" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 14
+[30-Dec-2023 00:01:23 UTC] PHP Warning:  Undefined array key "userid" in /home/hdd9tri3x0kp/public_html/functions/insert_message.php on line 16
+[30-Dec-2023 00:48:09 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_channels.php:3
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_channels.php(3): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_channels.php on line 3
+[30-Dec-2023 00:49:14 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_channels.php:3
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_channels.php(3): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_channels.php on line 3
+[30-Dec-2023 00:49:26 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_channels.php:3
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_channels.php(3): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_channels.php on line 3
+[30-Dec-2023 00:49:26 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_messages.php:2
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_messages.php(2): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_messages.php on line 2
+[30-Dec-2023 00:49:26 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_channels.php:3
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_channels.php(3): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_channels.php on line 3
+[30-Dec-2023 00:49:57 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_channels.php:3
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_channels.php(3): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_channels.php on line 3
+[30-Dec-2023 00:52:39 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_channels.php:3
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_channels.php(3): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_channels.php on line 3
+[30-Dec-2023 01:09:46 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_messages.php:2
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_messages.php(2): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_messages.php on line 2
+[30-Dec-2023 01:09:48 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_messages.php:2
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_messages.php(2): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_messages.php on line 2
+[30-Dec-2023 01:09:48 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_messages.php:2
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_messages.php(2): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_messages.php on line 2
+[30-Dec-2023 01:10:35 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home/hdd9tri3x0kp/public_html/functions/get_messages.php:2
+Stack trace:
+#0 /home/hdd9tri3x0kp/public_html/functions/get_messages.php(2): mysqli->__construct()
+#1 {main}
+  thrown in /home/hdd9tri3x0kp/public_html/functions/get_messages.php on line 2
