@@ -8,8 +8,8 @@ if (!isset($_POST['idnumber']) || empty($_POST['idnumber'])) {
 }
 
 // Assuming your database credentials
-$host = "92.205.147.175";
-$username_db = "momen";
+$host = "localhost";
+$username_db = "phpmyadmin";
 $password_db = "MoMeN011**";
 $database = "sharkawi_muc";
 
@@ -57,11 +57,11 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/icon" href="Images/icon2.png"/>
+    <link rel="icon" type="image/icon" href="Images/icon2.png" />
     <title>MUC Chat [<?php echo    $name; ?>]</title>
 
     <style>
-  
+
     </style>
     <link rel="stylesheet" href="chatstyletemp.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
@@ -88,8 +88,8 @@ $conn->close();
             </div>
         </div>
     </section>
-    <div id="container"> 
-        <div id="sidebar"  >
+    <div id="container">
+        <div id="sidebar">
             <div class="muc-img-div">
                 <img class="muc-img" src="Images/Group 2.svg" alt="">
             </div>
@@ -97,14 +97,14 @@ $conn->close();
                 <?php echo    $name; ?>!
             </div>
             <div id="online-users-container">
-            <label for="touch"><span class="touch-span" id="toggleIcon">Online Users</span></label>               
-            <input type="checkbox" id="touch"> 
-           
-            <div class="search-div">
-           
-            <input type="text" class="search" id="search" placeholder="Search by ID">
-            </div>
-               <br>
+                <label for="touch"><span class="touch-span" id="toggleIcon">Online Users</span></label>
+                <input type="checkbox" id="touch">
+
+                <div class="search-div">
+
+                    <input type="text" class="search" id="search" placeholder="Search by ID">
+                </div>
+                <br>
                 <div id="online-users">
                 </div>
             </div>
@@ -114,40 +114,39 @@ $conn->close();
             </div>
             <div class="logout-container">
 
-           
-            <a href="logout.php" class="logout-button">Logout</a>
-            </div>  </div>
-        
+
+                <a href="logout.php" class="logout-button">Logout</a>
+            </div>
+        </div>
+
         <div id="chat-container">
-        <div class="sidebtndiv">
-            <button id="sidebar-btn"><i class="fa-solid fa-arrow-right" id="side-arrow"></i>
-</button>
+            <div class="sidebtndiv">
+                <button id="sidebar-btn"><i class="fa-solid fa-arrow-right" id="side-arrow"></i>
+                </button>
 
             </div>
             <div id="chat-messages">
-           
+
             </div>
             <div class="inputs-fields">
                 <div class="message-input-div">
-                <input type="text" id="message-input" placeholder="Type your message..." class="input">
-                <input type="number" id="shift-input" min="0" placeholder="Key" class="input">
-               
-                <button id="send-button" class="button">Send</button>
+                    <input type="text" id="message-input" placeholder="Type your message..." class="input">
+                    <input type="number" id="shift-input" min="0" placeholder="Key" class="input">
+
+                    <button id="send-button" class="button">Send</button>
 
                 </div>
-                
+
             </div>
         </div>
     </div>
 
     <script>
-  
+        // Replace the following URL with the one provided by Ngrok
+        const ngrokUrl = 'ws://localhost:8080'; // Note the 'wss' for secure WebSocket connections
 
-    // Replace the following URL with the one provided by Ngrok
-    const ngrokUrl = 'wss://92.205.147.175:8080'; // Note the 'wss' for secure WebSocket connections
-
-    // The WebSocket connection now uses the Ngrok URL
-    const ws = new WebSocket(ngrokUrl + '?username=<?php echo $name; ?>&user_id=<?php echo $user_id ?>');
+        // The WebSocket connection now uses the Ngrok URL
+        const ws = new WebSocket(ngrokUrl + '?username=<?php echo $name; ?>&user_id=<?php echo $user_id ?>');
         const userName = "<?php echo $name; ?>";
         const userId = "<?php echo $user_id; ?>";
         window.onload = async function() {
@@ -245,7 +244,7 @@ $conn->close();
 
 
         function updateOnlineUsers(onlineUsers) {
-    
+
             const onlineUsersElement = document.getElementById('online-users');
             onlineUsersElement.innerHTML = '<ul id="online-users-list"></ul>';
 
@@ -253,37 +252,40 @@ $conn->close();
             const categorySelect = document.getElementById('category-select');
             const toggleIcon = document.getElementById('toggleIcon');
 
-            const onlineuserscount=onlineUsers.length;
-  const touch = document.getElementById('touch');
-                touch.addEventListener('change', function() {
-    // Update the height of the online-users-list element based on the checkbox state
-    onlineUsersList.style.height = touch.checked ? onlineuserscount*47.4 +"px" : '0';
-    toggleIcon.classList.toggle('minus', touch.checked);
+            const onlineuserscount = onlineUsers.length;
+            const touch = document.getElementById('touch');
+            touch.addEventListener('change', function() {
+                // Update the height of the online-users-list element based on the checkbox state
+                onlineUsersList.style.height = touch.checked ? onlineuserscount * 47.4 + "px" : '0';
+                toggleIcon.classList.toggle('minus', touch.checked);
 
-  });
+            });
 
-  const usersobserver = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.type === 'childList') {
-    onlineUsersList.style.height = touch.checked ? onlineuserscount*47.4 +"px" : '0';
+            const usersobserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'childList') {
+                        onlineUsersList.style.height = touch.checked ? onlineuserscount * 47.4 + "px" : '0';
 
-      }
-    });
-  });
+                    }
+                });
+            });
 
-  const usersconfig = { childList: true, subtree: true };
-  usersobserver.observe(onlineUsersList, usersconfig);
+            const usersconfig = {
+                childList: true,
+                subtree: true
+            };
+            usersobserver.observe(onlineUsersList, usersconfig);
 
 
 
-  onlineUsersList.addEventListener('change',function(){
-  
-  });
+            onlineUsersList.addEventListener('change', function() {
+
+            });
 
             console.log("aaaa", {
                 onlineUsers
             });
-            
+
             console.log(onlineUsers[1]);
             onlineUsers.filter(x => x.user_id !== userId).forEach(({
                 name: username,
@@ -333,7 +335,7 @@ $conn->close();
                 listItem.appendChild(link);
                 onlineUsersList.appendChild(listItem);
             });
-            
+
         }
 
 
@@ -353,10 +355,10 @@ $conn->close();
             const messageText = document.createElement('span');
             messageText.className = 'message-text';
             const encryptedMessage = message.split(': ').slice(1).join(':');
-                 const messagebeforeencryption = CryptoJS.AES.encrypt(encryptedMessage, "10").toString();
-      const encryptedlength = messagebeforeencryption.length;
-      const encryptedmsg2 = messagebeforeencryption.substring(encryptedlength - 10);
-      messageText.textContent = encryptedmsg2;
+            const messagebeforeencryption = CryptoJS.AES.encrypt(encryptedMessage, "10").toString();
+            const encryptedlength = messagebeforeencryption.length;
+            const encryptedmsg2 = messagebeforeencryption.substring(encryptedlength - 10);
+            messageText.textContent = encryptedmsg2;
 
             messageContainer.addEventListener('click', () => {
                 Togglemessage();
@@ -371,7 +373,7 @@ $conn->close();
             const retrunable = document.getElementById("returnable");
 
             function Togglemessage() {
-                                            console.log("testindasdadasdasdas",messageText);
+                console.log("testindasdadasdasdas", messageText);
 
                 retrunable.addEventListener("keypress", (e) => {
                     if (e.key === "Enter") {
@@ -380,7 +382,7 @@ $conn->close();
                             section.style.display = "none";
                         }, 300);
                         if (messageText.textContent === encryptedmsg2) {
-                            console.log("testinng 123415141231",messageText);
+                            console.log("testinng 123415141231", messageText);
 
                             let decrypt_shift = retrunable.value;
                             // If the current content is the encrypted message, decrypt it
@@ -454,7 +456,7 @@ $conn->close();
 
 
         document.getElementById('send-button').addEventListener('click', sendMessage);
-        
+
 
         document.getElementById('message-input').addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
@@ -465,33 +467,33 @@ $conn->close();
         document.getElementById('message-input').addEventListener('keydown', function(event) {
             var currentValue = parseInt(document.getElementById('shift-input').value) || 0;
 
-    if (event.key === 'ArrowUp' ) {
+            if (event.key === 'ArrowUp') {
 
-        document.getElementById('shift-input').value = currentValue + 1;
-    }
-    if (event.key === 'ArrowDown') {
-        if(currentValue>0)
-        document.getElementById('shift-input').value = currentValue - 1;
-    }
+                document.getElementById('shift-input').value = currentValue + 1;
+            }
+            if (event.key === 'ArrowDown') {
+                if (currentValue > 0)
+                    document.getElementById('shift-input').value = currentValue - 1;
+            }
 
-});
+        });
 
 
-document.getElementById('message-input').addEventListener('wheel', function(event) {
-    var currentValue = parseInt(document.getElementById('shift-input').value) || 0;
+        document.getElementById('message-input').addEventListener('wheel', function(event) {
+            var currentValue = parseInt(document.getElementById('shift-input').value) || 0;
 
-    // Detect whether the wheel event is scrolling up or down
-    var delta = Math.sign(event.deltaY);
+            // Detect whether the wheel event is scrolling up or down
+            var delta = Math.sign(event.deltaY);
 
-    if (delta > 0) {
-        // Scrolling down
-        if (currentValue > 0)
-            document.getElementById('shift-input').value = currentValue - 1;
-    } else if (delta < 0) {
-        // Scrolling up
-        document.getElementById('shift-input').value = currentValue + 1;
-    }
-});
+            if (delta > 0) {
+                // Scrolling down
+                if (currentValue > 0)
+                    document.getElementById('shift-input').value = currentValue - 1;
+            } else if (delta < 0) {
+                // Scrolling up
+                document.getElementById('shift-input').value = currentValue + 1;
+            }
+        });
         // ws.onopen(function() {
         //     console.log("Clinet Connected");
         // })
@@ -517,21 +519,21 @@ document.getElementById('message-input').addEventListener('wheel', function(even
                 default:
                     throw new Error("unhandled case");
             }
-            
+
         };
 
 
 
 
 
-         function renderChannels(channels) {
+        function renderChannels(channels) {
 
 
             const x = channels.filter(chann => chann.name != "");
             console.log(x);
             const channelsContainer = document.getElementById("channels");
             channelsContainer.innerHTML = "";
-            
+
             x.forEach(channel => {
                 const elem = document.createElement("div");
                 elem.className = window.current_channel_id === channel.id ? "conversation-link current" : "conversation-link ";
@@ -551,11 +553,11 @@ document.getElementById('message-input').addEventListener('wheel', function(even
                 });
                 channelsContainer.appendChild(elem);
             })
-            
+
         }
 
         function loadChannels() {
-            
+
             return fetch(`functions/get_channels.php`).then(res => res.json()).then(channels => {
                 // Added Logic to filer Channels 
                 console.log({
@@ -586,7 +588,7 @@ document.getElementById('message-input').addEventListener('wheel', function(even
                 renderChannels(y);
                 // loadMessages(window.current_channel_id)
             })
-            
+
         }
 
         // function loadMessages(channel_id) {
@@ -604,34 +606,34 @@ document.getElementById('message-input').addEventListener('wheel', function(even
         // }
         let latestMessageTimestamp = null;
 
-function loadMessages(channel_id) {
-    console.log(channel_id);
+        function loadMessages(channel_id) {
+            console.log(channel_id);
 
-    const url = latestMessageTimestamp
-        ? `functions/get_messages.php?channel_id=${encodeURIComponent(channel_id)}&since=${encodeURIComponent(latestMessageTimestamp)}`
-        : `functions/get_messages.php?channel_id=${encodeURIComponent(channel_id)}`;
+            const url = latestMessageTimestamp ?
+                `functions/get_messages.php?channel_id=${encodeURIComponent(channel_id)}&since=${encodeURIComponent(latestMessageTimestamp)}` :
+                `functions/get_messages.php?channel_id=${encodeURIComponent(channel_id)}`;
 
-    console.log('Fetching messages from URL:', url);
+            console.log('Fetching messages from URL:', url);
 
-    fetch(url)
-        .then(res => res.json())
-        .then(messages => {
-            console.log('Received messages:', messages);
+            fetch(url)
+                .then(res => res.json())
+                .then(messages => {
+                    console.log('Received messages:', messages);
 
-            messages.forEach(function(message) {
-                const isCurrentUser = message.sender === userName;
-                const userClass = isCurrentUser ? 'user-message' : 'other-message';
-                appendMessage(`${message.sender} : ${message.message}`, userClass);
-            });
+                    messages.forEach(function(message) {
+                        const isCurrentUser = message.sender === userName;
+                        const userClass = isCurrentUser ? 'user-message' : 'other-message';
+                        appendMessage(`${message.sender} : ${message.message}`, userClass);
+                    });
 
-            // Update the latest message timestamp
-            if (messages.length > 0) {
-                latestMessageTimestamp = messages[messages.length - 1].timestamp;
-                console.log('Latest message timestamp:', latestMessageTimestamp);
-            }
-        })
-        .catch(error => console.error('Error fetching messages:', error));
-}
+                    // Update the latest message timestamp
+                    if (messages.length > 0) {
+                        latestMessageTimestamp = messages[messages.length - 1].timestamp;
+                        console.log('Latest message timestamp:', latestMessageTimestamp);
+                    }
+                })
+                .catch(error => console.error('Error fetching messages:', error));
+        }
 
         function loadOnlineUsers() {
             ws.send("Get Online Users");
@@ -645,81 +647,78 @@ function loadMessages(channel_id) {
         const sidebar = document.getElementById('sidebar');
 
         const toggleIcon = document.getElementById('toggleIcon');
-      const chann = document.getElementById('channels')
+        const chann = document.getElementById('channels')
         const welcomemessage = document.getElementById('welcome-message');
         const ConvTxt = document.querySelector('.ConvTxt');
         const sidearrow = document.getElementById('side-arrow');
 
-        
-        
+
+
 
         sidebarbtn.addEventListener("click", function(e) {
             if (window.innerWidth <= 480) {
-                if (sidebar.style.width === "63%"){
-            sidebar.style.width="0px";
-            sidebar.style.padding="0px"
-            toggleIcon.style.fontSize ="1em";
-            ConvTxt.style.fontSize ="16px";
-            chann.classList.toggle('hide-scrollbar');
-            sidearrow.style.transform="rotate(0deg)";
-       console.log(conversationLinks); // Check what elements are selected
-   
-        }
-        else if (sidebar.style.width !== "63%")  {
-            sidebar.style.width="63%";
-            sidebar.style.padding="30px"
-            toggleIcon.style.fontSize ="1.2em";
-            ConvTxt.style.fontSize ="16px";
-            chann.classList.remove('hide-scrollbar');
-            sidearrow.style.transform="rotate(-180deg)";
+                if (sidebar.style.width === "63%") {
+                    sidebar.style.width = "0px";
+                    sidebar.style.padding = "0px"
+                    toggleIcon.style.fontSize = "1em";
+                    ConvTxt.style.fontSize = "16px";
+                    chann.classList.toggle('hide-scrollbar');
+                    sidearrow.style.transform = "rotate(0deg)";
+                    console.log(conversationLinks); // Check what elements are selected
+
+                } else if (sidebar.style.width !== "63%") {
+                    sidebar.style.width = "63%";
+                    sidebar.style.padding = "30px"
+                    toggleIcon.style.fontSize = "1.2em";
+                    ConvTxt.style.fontSize = "16px";
+                    chann.classList.remove('hide-scrollbar');
+                    sidearrow.style.transform = "rotate(-180deg)";
 
 
-        }
-  } else {
-    
-    if (sidebar.style.width === "250px"){
-            sidebar.style.width="100px";
-            sidebar.style.padding="15px"
-            toggleIcon.style.fontSize ="1em";
-            ConvTxt.style.fontSize ="15px";
-            chann.classList.toggle('hide-scrollbar');
-            sidearrow.style.transform="rotate(0deg)";
-       console.log(conversationLinks); // Check what elements are selected
-   
-        }
-        else if (sidebar.style.width !== "250px")  {
-            sidebar.style.width="250px";
-            sidebar.style.padding="30px"
-            toggleIcon.style.fontSize ="1.2em";
-            ConvTxt.style.fontSize ="16px";
-            chann.classList.remove('hide-scrollbar');
-            sidearrow.style.transform="rotate(-180deg)";
+                }
+            } else {
+
+                if (sidebar.style.width === "250px") {
+                    sidebar.style.width = "100px";
+                    sidebar.style.padding = "15px"
+                    toggleIcon.style.fontSize = "1em";
+                    ConvTxt.style.fontSize = "15px";
+                    chann.classList.toggle('hide-scrollbar');
+                    sidearrow.style.transform = "rotate(0deg)";
+                    console.log(conversationLinks); // Check what elements are selected
+
+                } else if (sidebar.style.width !== "250px") {
+                    sidebar.style.width = "250px";
+                    sidebar.style.padding = "30px"
+                    toggleIcon.style.fontSize = "1.2em";
+                    ConvTxt.style.fontSize = "16px";
+                    chann.classList.remove('hide-scrollbar');
+                    sidearrow.style.transform = "rotate(-180deg)";
 
 
-        }
-  }
-    
-    
+                }
+            }
+
+
         })
 
-function startofchat(){
-    if (window.innerWidth <= 480) {
-            sidebar.style.width="0px";
-            sidebar.style.padding="0px" 
-            sidebar.style.marginLeft = "0px";        }
-        else{
-            sidebar.style.width="250px";
-            sidebar.style.padding="30px"
-            sidebar.style.marginLeft = "7px"; 
+        function startofchat() {
+            if (window.innerWidth <= 480) {
+                sidebar.style.width = "0px";
+                sidebar.style.padding = "0px"
+                sidebar.style.marginLeft = "0px";
+            } else {
+                sidebar.style.width = "250px";
+                sidebar.style.padding = "30px"
+                sidebar.style.marginLeft = "7px";
 
 
-        }
+            }
 
-};
+        };
 
 
-startofchat()
-                     
+        startofchat()
     </script>
 </body>
 

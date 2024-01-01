@@ -1,6 +1,6 @@
 <?php
 // Establish a database connection (replace with your database credentials)
-$mysqli = new mysqli("92.205.147.175", "momen", "MoMeN011**", "sharkawi_muc");
+$mysqli = new mysqli("localhost", "phpmyadmin", "MoMeN011**", "sharkawi_muc");
 
 // Check connection
 if ($mysqli->connect_error) {

@@ -49,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // Database connection details
-    $servername = "92.205.147.175";
-    $username = "momen";
+    $servername = "localhost";
+    $username = "phpmyadmin";
     $password = "MoMeN011**";
     $dbname = "sharkawi_muc";
 
