@@ -10,7 +10,7 @@ if (!isset($_POST['idnumber']) || empty($_POST['idnumber'])) {
 // Assuming your database credentials
 $host = "localhost";
 $username_db = "root";
-$password_db = "";
+$password_db = "MoMeN011**a";
 $database = "sharkawi_muc";
 
 // Create a connection to the database
@@ -143,7 +143,7 @@ $conn->close();
 
     <script>
         // Replace the following URL with the one provided by Ngrok
-        const ngrokUrl = 'ws://172.20.10.14:8080'; // Note the 'wss' for secure WebSocket connections
+        const ngrokUrl = 'wss://64.227.46.189:3000'; // Note the 'wss' for secure WebSocket connections
 
         // The WebSocket connection now uses the Ngrok \URL
         const ws = new WebSocket(ngrokUrl + '?username=<?php echo $name; ?>&user_id=<?php echo $user_id ?>');

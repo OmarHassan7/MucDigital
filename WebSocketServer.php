@@ -89,10 +89,10 @@
                 new Chat()
             )
         ),
-        8080
+        3000,
     );
 
-    echo "WebSocket Server running at http://127.0.0.1:8080\n";
+    echo "WebSocket Server running at wss://64.227.46.189:3000\n";
 
     $server->run();
     ?>

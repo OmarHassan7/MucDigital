@@ -1,6 +1,6 @@
 <?php
 // Establish a database connection (replace with your database credentials)
-$mysqli = new mysqli("localhost", "root", "", "sharkawi_muc");
+$mysqli = new mysqli("localhost", "root", "MoMeN011**a", "sharkawi_muc");
 
 // Check connection
 if ($mysqli->connect_error) {

@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Database connection details
     $servername = "localhost";
     $username = "root";
-    $password_db = "";
+    $password_db = "MoMeN011**a";
     $dbname = "sharkawi_muc";
 
     // Create a database connection
