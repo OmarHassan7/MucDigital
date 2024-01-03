@@ -143,7 +143,11 @@ $conn->close();
 
     <script>
         // Replace the following URL with the one provided by Ngrok
-        const ngrokUrl = 'wss://64.227.46.189:3000'; // Note the 'wss' for secure WebSocket connections
+        // const ngrokUrl = 'wss://64.227.46.189:3000'; // Note the 'wss' for secure WebSocket connections
+        const wsProtocol = (window.location.protocol === 'https:') ? 'wss' : 'ws';
+        const ws = new WebSocket(`${wsProtocol}://localhost:8080?username=<?php echo $name; ?>&user_id=<?php echo $user_id ?>`);
+
+
 
         // The WebSocket connection now uses the Ngrok \URL
         const ws = new WebSocket(ngrokUrl + '?username=<?php echo $name; ?>&user_id=<?php echo $user_id ?>');
