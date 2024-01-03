@@ -9,8 +9,8 @@ if (!isset($_POST['idnumber']) || empty($_POST['idnumber'])) {
 
 // Assuming your database credentials
 $host = "localhost";
-$username_db = "phpmyadmin";
-$password_db = "MoMeN011**";
+$username_db = "root";
+$password_db = "";
 $database = "sharkawi_muc";
 
 // Create a connection to the database
@@ -131,7 +131,7 @@ $conn->close();
             <div class="inputs-fields">
                 <div class="message-input-div">
                     <input type="text" id="message-input" placeholder="Type your message..." class="input">
-                    <input type="number" id="shift-input" min="0" placeholder="Key" class="input">
+                    <input type="text" id="shift-input" min="0" placeholder="Key" class="input" required>
 
                     <button id="send-button" class="button">Send</button>
 
@@ -143,15 +143,14 @@ $conn->close();
 
     <script>
         // Replace the following URL with the one provided by Ngrok
-        const ngrokUrl = 'ws://localhost:8080'; // Note the 'wss' for secure WebSocket connections
+        const ngrokUrl = 'ws://172.20.10.14:8080'; // Note the 'wss' for secure WebSocket connections
 
-        // The WebSocket connection now uses the Ngrok URL
+        // The WebSocket connection now uses the Ngrok \URL
         const ws = new WebSocket(ngrokUrl + '?username=<?php echo $name; ?>&user_id=<?php echo $user_id ?>');
         const userName = "<?php echo $name; ?>";
         const userId = "<?php echo $user_id; ?>";
         window.onload = async function() {
             await loadChannels();
-            console.log("aaaa", window.current_channel_id);
             loadMessages(window.current_channel_id);
             document.getElementById('welcome-message').style.display = 'block';
             loadOnlineUsers();
@@ -164,24 +163,17 @@ $conn->close();
             const categorySelect = document.getElementById('category-select');
             const shiftInput = document.getElementById('shift-input'); // Get the shift input
             const message = messageInput.value.trim();
-            // const category = categorySelect.value || "General";
-            shiftValue = parseInt(shiftInput.value) || 0; // Get the shift value or default to 3
+            shiftValue = shiftInput.value;
 
-            // Function to encrypt a message using Caesar cipher with the specified shift value
-            function encryptMessage(text, shift) {
-                return [...text]
-                    .map(char => {
-                        const charCode = char.charCodeAt(0);
-                        if (charCode >= 65 && charCode <= 90) {
-                            return String.fromCharCode((charCode - 65 + shift) % 26 + 65); // Uppercase letters
-                        } else if (charCode >= 97 && charCode <= 122) {
-                            return String.fromCharCode((charCode - 97 + shift) % 26 + 97); // Lowercase letters
-                        } else {
-                            return char; // Non-alphabetic characters
-                        }
-                    })
-                    .join('');
+            function encryptMessage(text, secretKey) {
+                // Encrypt the text using AES encryption
+                if (secretKey == 0 || secretKey == "") return text;
+                else {
+                    const encryptedText = CryptoJS.AES.encrypt(text, secretKey).toString();
+                    return encryptedText;
+                }
             }
+
             if (message !== '') {
                 const fullMessage = encryptMessage(message, shiftValue)
                 const data = {
@@ -233,11 +225,8 @@ $conn->close();
         searchInput.addEventListener("keyup", function(e) {
             searchVal = e.target.value;
             const filteredOnlineUsers = onlineUsers.filter(user => {
-                console.log("c1", user.user_id);
-                console.log("c2", searchVal);
                 return user.user_id.includes(searchVal);
             });
-            console.log("aaaa", filteredOnlineUsers);
             updateOnlineUsers(filteredOnlineUsers);
         })
 
@@ -282,11 +271,9 @@ $conn->close();
 
             });
 
-            console.log("aaaa", {
-                onlineUsers
-            });
 
-            console.log(onlineUsers[1]);
+
+
             onlineUsers.filter(x => x.user_id !== userId).forEach(({
                 name: username,
                 user_id
@@ -314,12 +301,9 @@ $conn->close();
                             }]
                         })
                     }).then(response => response.json()).then(response => {
-                        console.log({
-                            response
-                        })
+
                         if (response.message === "Already exists") {
                             window.current_channel_id = response.channel_id;
-                            console.log(window.current_channel_id);
                             loadChannels();
                             loadMessages(window.current_channel_id);
                         } else {
@@ -355,16 +339,21 @@ $conn->close();
             const messageText = document.createElement('span');
             messageText.className = 'message-text';
             const encryptedMessage = message.split(': ').slice(1).join(':');
-            const messagebeforeencryption = CryptoJS.AES.encrypt(encryptedMessage, "10").toString();
-            const encryptedlength = messagebeforeencryption.length;
-            const encryptedmsg2 = messagebeforeencryption.substring(encryptedlength - 10);
+            let encryptedmsg2;
+            if (encryptedMessage.startsWith("U2FsdGVk")) {
+                const encryptedlength = encryptedMessage.length;
+                encryptedmsg2 = encryptedMessage.substring(encryptedlength - 10);
+            } else {
+                encryptedmsg2 = encryptedMessage;
+            }
             messageText.textContent = encryptedmsg2;
+            if (encryptedMessage.startsWith("U2FsdGVk")) {
+                messageContainer.addEventListener('click', () => {
+                    Togglemessage();
+                    retrunable.focus();
 
-            messageContainer.addEventListener('click', () => {
-                Togglemessage();
-                retrunable.focus();
-
-            });
+                });
+            }
 
             //Popup box
             const closeBtn = document.querySelector(".close-btn");
@@ -373,61 +362,78 @@ $conn->close();
             const retrunable = document.getElementById("returnable");
 
             function Togglemessage() {
-                console.log("testindasdadasdasdas", messageText);
 
-                retrunable.addEventListener("keypress", (e) => {
+                // Define the event listener function
+                function handleKeyPress(e) {
                     if (e.key === "Enter") {
                         section.classList.remove("active");
                         setTimeout(() => {
                             section.style.display = "none";
                         }, 300);
                         if (messageText.textContent === encryptedmsg2) {
-                            console.log("testinng 123415141231", messageText);
+                            retrunable.removeEventListener("keypress", handleKeyPress);
 
                             let decrypt_shift = retrunable.value;
                             // If the current content is the encrypted message, decrypt it
                             messageText.textContent = decryptMessage(encryptedMessage, decrypt_shift);
                             retrunable.value = null;
+
+                            // Remove the event listener after it's been executed
                         }
                     }
-                })
+                }
+
+                // Add the event listener
+                retrunable.addEventListener("keypress", handleKeyPress);
+
                 if (messageText.textContent === encryptedmsg2) {
                     section.style.display = "block";
                     setTimeout(() => {
                         section.classList.add("active");
                     }, 10);
-                    closeBtn.addEventListener('click', function() {
+
+                    // Define the close button click event listener function
+                    function handleCloseClick() {
                         section.classList.remove("active");
                         setTimeout(() => {
                             section.style.display = "none";
                         }, 300);
 
-
                         if (messageText.textContent === encryptedmsg2) {
-
                             let decrypt_shift = retrunable.value;
                             // If the current content is the encrypted message, decrypt it
                             messageText.textContent = decryptMessage(encryptedMessage, decrypt_shift);
                             retrunable.value = null;
                         }
-                    });
 
+                        // Remove the event listener after it's been executed
+                        closeBtn.removeEventListener('click', handleCloseClick);
+                    }
+
+                    // Add the close button click event listener
+                    closeBtn.addEventListener('click', handleCloseClick);
                 } else {
                     // If the current content is decrypted, revert to the encrypted message
                     messageText.textContent = encryptedmsg2;
                 }
 
-            }
+                overlay.addEventListener("click", Overlayclicking);
 
-            overlay.addEventListener(
-                "click",
-                () => (
-                    section.classList.remove("active"),
+                function Overlayclicking() {
+                    closeBtn.removeEventListener('click', handleCloseClick);
+                    retrunable.removeEventListener("keypress", handleKeyPress);
+                    overlay.removeEventListener("click", Overlayclicking);
+
+                    section.classList.remove("active");
                     setTimeout(() => {
                         section.style.display = "none";
-                    }, 150)
-                )
-            );
+                    }, 150);
+
+                }
+            }
+
+
+
             //End of popup box code
 
 
@@ -439,20 +445,25 @@ $conn->close();
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        function decryptMessage(text, shift) {
-            return [...text]
-                .map(char => {
-                    const charCode = char.charCodeAt(0);
-                    if (charCode >= 65 && charCode <= 90) {
-                        return String.fromCharCode(((charCode - 65 - shift + 26 * 999999999) % 26) + 65); // Uppercase letters
-                    } else if (charCode >= 97 && charCode <= 122) {
-                        return String.fromCharCode(((charCode - 97 - shift + 26 * 999999999) % 26) + 97); // Lowercase letters
-                    } else {
-                        return char; // Non-alphabetic characters
-                    }
-                })
-                .join('');
+        function decryptMessage(text, secretKey) {
+            try {
+                // Attempt to decrypt the text using AES decryption
+                const decryptedBytes = CryptoJS.AES.decrypt(text, secretKey);
+
+                // Check if the decryption was successful
+                if (decryptedBytes.sigBytes > 0) {
+                    const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+                    return decryptedText;
+
+                } else {
+                    return "Invalid Key";
+                }
+            } catch (error) {
+                // Handle decryption error
+                return "Invalid Key";
+            }
         }
+
 
 
         document.getElementById('send-button').addEventListener('click', sendMessage);
@@ -494,15 +505,12 @@ $conn->close();
                 document.getElementById('shift-input').value = currentValue + 1;
             }
         });
-        // ws.onopen(function() {
-        //     console.log("Clinet Connected");
-        // })
+
         ws.onmessage = function(e) {
             const {
                 event,
                 data
             } = JSON.parse(e.data);
-            console.log("WebSocket Message Received:", e.data);
 
             switch (event) {
                 case "online_users":
@@ -530,7 +538,6 @@ $conn->close();
 
 
             const x = channels.filter(chann => chann.name != "");
-            console.log(x);
             const channelsContainer = document.getElementById("channels");
             channelsContainer.innerHTML = "";
 
@@ -544,7 +551,6 @@ $conn->close();
                     latestMessageTimestamp = null;
                     event.preventDefault();
                     const channel_id = this.getAttribute('data-channel-id');
-                    console.log(channel_id);
                     window.current_channel_id = channel_id;
                     loadChannels();
                     loadMessages(channel_id);
@@ -560,10 +566,7 @@ $conn->close();
 
             return fetch(`functions/get_channels.php`).then(res => res.json()).then(channels => {
                 // Added Logic to filer Channels 
-                console.log({
-                    userId: +userId,
-                    channels
-                })
+
                 const getMajorById = (userId) => {
                     switch (userId.substring(0, 4)) {
                         case "2211":
@@ -582,43 +585,26 @@ $conn->close();
                     ch.name === "General" ? true :
                     ch.name === getMajorById(userId) ? true : false
                 );
-                console.log("bbbbb", channels[0], channels[0].id)
                 if (!window.current_channel_id)
                     window.current_channel_id = channels[0].id;
                 renderChannels(y);
-                // loadMessages(window.current_channel_id)
             })
 
         }
 
-        // function loadMessages(channel_id) {
-        //     clearChatMessages();
-        //     console.log(channel_id);
-        //     fetch(`functions/get_messages.php?channel_id=${encodeURIComponent(channel_id)}`).then(res => res.json()).then(messages =>
-        //         messages.forEach(function(message) {
-        //         console.log(message);
-        //           const isCurrentUser = message.userid == userId;
-        //             const userClass = isCurrentUser ? 'user-message' : 'other-message';
-        //             appendMessage(`${message.sender} : ${message.message}`, userClass);
-        //         })
-        //     )
-        //     // document.getElementById('category-select').value = channel;
-        // }
+
         let latestMessageTimestamp = null;
 
-        function loadMessages(channel_id) {
-            console.log(channel_id);
+        function loadMessages(channel_id, key) {
 
             const url = latestMessageTimestamp ?
                 `functions/get_messages.php?channel_id=${encodeURIComponent(channel_id)}&since=${encodeURIComponent(latestMessageTimestamp)}` :
                 `functions/get_messages.php?channel_id=${encodeURIComponent(channel_id)}`;
 
-            console.log('Fetching messages from URL:', url);
 
             fetch(url)
                 .then(res => res.json())
                 .then(messages => {
-                    console.log('Received messages:', messages);
 
                     messages.forEach(function(message) {
                         const isCurrentUser = message.sender === userName;
@@ -629,7 +615,6 @@ $conn->close();
                     // Update the latest message timestamp
                     if (messages.length > 0) {
                         latestMessageTimestamp = messages[messages.length - 1].timestamp;
-                        console.log('Latest message timestamp:', latestMessageTimestamp);
                     }
                 })
                 .catch(error => console.error('Error fetching messages:', error));
@@ -664,7 +649,6 @@ $conn->close();
                     ConvTxt.style.fontSize = "16px";
                     chann.classList.toggle('hide-scrollbar');
                     sidearrow.style.transform = "rotate(0deg)";
-                    console.log(conversationLinks); // Check what elements are selected
 
                 } else if (sidebar.style.width !== "63%") {
                     sidebar.style.width = "63%";
@@ -685,7 +669,6 @@ $conn->close();
                     ConvTxt.style.fontSize = "15px";
                     chann.classList.toggle('hide-scrollbar');
                     sidearrow.style.transform = "rotate(0deg)";
-                    console.log(conversationLinks); // Check what elements are selected
 
                 } else if (sidebar.style.width !== "250px") {
                     sidebar.style.width = "250px";

@@ -50,8 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Database connection details
     $servername = "localhost";
-    $username = "phpmyadmin";
-    $password = "MoMeN011**";
+    $username = "root";
+    $password = "";
     $dbname = "sharkawi_muc";
 
     // Create a database connection
