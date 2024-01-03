@@ -150,7 +150,7 @@ $conn->close();
 
 
         // The WebSocket connection now uses the Ngrok \URL
-        const ws = new WebSocket(ngrokUrl + '?username=<?php echo $name; ?>&user_id=<?php echo $user_id ?>');
+        const ws = new WebSocket(ws + '?username=<?php echo $name; ?>&user_id=<?php echo $user_id ?>');
         const userName = "<?php echo $name; ?>";
         const userId = "<?php echo $user_id; ?>";
         window.onload = async function() {
